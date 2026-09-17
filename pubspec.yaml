@@ -1,0 +1,25 @@
+name: ember_streak
+description: "A streak counter for Flutter: a procedurally drawn flickering flame, a count that pops, a week of days that fill in, milestone sparks and an at-risk state."
+version: 1.0.0
+homepage: https://yagnikbarasiya23.github.io/ember_streak/
+repository: https://github.com/YagnikBarasiya23/ember_streak
+issue_tracker: https://github.com/YagnikBarasiya23/ember_streak/issues
+topics: [streak, habit, gamification, animation, widget]
+screenshots:
+  - description: "Ember flaring with sparks at a 30-day milestone"
+    path: screenshots/ember.jpg
+
+environment:
+  sdk: ^3.13.0
+  flutter: ">=3.47.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
