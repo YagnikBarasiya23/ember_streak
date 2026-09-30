@@ -207,7 +207,10 @@ class _EmberStreakState extends State<EmberStreak> with TickerProviderStateMixin
       final milestone = milestoneCrossed(old.count, widget.count, widget.milestones);
       if (milestone != null) {
         if (!reduced) _sparks.forward(from: 0);
-        widget.onMilestone?.call(milestone);
+        // After the frame, so a parent can call setState from the callback.
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          if (mounted) widget.onMilestone?.call(milestone);
+        });
       }
     }
     _syncTicker();

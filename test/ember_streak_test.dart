@@ -21,6 +21,28 @@ Widget _app({
 
 String _label(WidgetTester tester) => tester.getSemantics(find.byType(EmberStreak)).label;
 
+/// Shows the last milestone in its own state, as the example app does.
+class _Parent extends StatefulWidget {
+  const _Parent();
+
+  @override
+  State<_Parent> createState() => _ParentState();
+}
+
+class _ParentState extends State<_Parent> {
+  int _count = 12;
+  String _log = '';
+
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      EmberStreak(count: _count, doneToday: true, week: const [true], today: 0, onMilestone: (m) => setState(() => _log = 'milestone $m')),
+      TextButton(onPressed: () => setState(() => _count = 20), child: const Text('jump')),
+      Text(_log),
+    ],
+  );
+}
+
 void main() {
   group('logic', () {
     test('status follows the count and today', () {
@@ -86,6 +108,15 @@ void main() {
       await tester.pumpWidget(_app(count: 31, onMilestone: hits.add));
       await tester.pump(const Duration(seconds: 1));
       expect(hits, [30]);
+    });
+
+    testWidgets('a parent can setState from onMilestone', (tester) async {
+      await tester.pumpWidget(const MaterialApp(home: _Parent()));
+      await tester.tap(find.text('jump'));
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+      await tester.pump();
+      expect(find.text('milestone 14'), findsOneWidget);
     });
 
     testWidgets('going out stops the flame after the smoke', (tester) async {
