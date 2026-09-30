@@ -1,6 +1,8 @@
 import 'package:ember_streak/ember_streak.dart';
 import 'package:flutter/material.dart';
 
+import 'controls.dart';
+
 void main() => runApp(const EmberDemo());
 
 const _bg = Color(0xFF050505);
@@ -70,9 +72,10 @@ class _DemoPageState extends State<DemoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20, 28, 20, 40),
+            padding: EdgeInsets.fromLTRB(20, 28, 20, 40 + MediaQuery.paddingOf(context).bottom),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 560),
               child: Column(
@@ -117,15 +120,13 @@ class _DemoPageState extends State<DemoPage> {
                           runSpacing: 10,
                           alignment: WrapAlignment.center,
                           children: [
-                            FilledButton(
+                            PillButton(
+                              label: _doneToday ? 'Logged today' : 'Log today',
+                              primary: true,
                               onPressed: _doneToday ? null : _logToday,
-                              child: Text(_doneToday ? 'Logged today' : 'Log today'),
                             ),
-                            OutlinedButton(
-                              onPressed: _count == 0 ? null : _breakStreak,
-                              child: const Text('Break streak'),
-                            ),
-                            OutlinedButton(onPressed: _nearMilestone, child: const Text('Jump to 29')),
+                            PillButton(label: 'Break streak', onPressed: _count == 0 ? null : _breakStreak),
+                            PillButton(label: 'Jump to 29', onPressed: _nearMilestone),
                           ],
                         ),
                       ),
@@ -169,9 +170,13 @@ class _DemoPageState extends State<DemoPage> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const Text(
-                    'MIT © 2026 Yagnik Barasiya · github.com/YagnikBarasiya23/ember_streak',
-                    style: TextStyle(color: _muted, fontSize: 13),
+                  const SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      'MIT © 2026 Yagnik Barasiya · github.com/YagnikBarasiya23/ember_streak',
+                      style: TextStyle(color: _muted, fontSize: 13),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),
